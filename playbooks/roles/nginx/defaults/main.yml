@@ -1,0 +1,5 @@
+---
+# defaults file for nginx
+frontend_port: 80
+backend_port: 3000
+backend_server: 192.168.56.20

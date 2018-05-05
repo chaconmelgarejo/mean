@@ -1,0 +1,13 @@
+- hosts: mongodb
+  become: yes
+  tasks:
+    - name: does .rootCreated exist?
+      stat: path=/root/.rootCreated
+      register: rootCreated
+        
+    - name: create .rootCreated file
+      copy:
+        content: ""
+        dest: /root/.rootCreated
+        force: no
+      when: rootCreated.stat.exists == false

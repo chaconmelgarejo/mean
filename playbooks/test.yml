@@ -1,0 +1,26 @@
+- hosts: mongodb
+  tasks:
+#    - name: Register the stat of the Laravel directory
+#      stat:
+#        path: /var/www/html/blog
+#      register: dirstat
+
+     - name: Check if mongo is running 
+       command: systemctl status mongod
+       ignore_errors: yes
+       changed_when: false
+       register: stat     
+
+     - name: Report status of MongoDB
+       fail: 
+         msg: | 
+           Service MongoDB is not running.
+           Output of `systemctl status mongod`:
+           {{ stat.stdout }}
+           {{ stat.stderr }}
+       when: stat | failed
+
+     - name: Install MongoDB 
+       debug: msg="MongoDB will be installed!"
+       when: stat | failed
+#       when: dirstat.stat.exists
